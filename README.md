@@ -1,6 +1,8 @@
 # civitai-generation
 
-Python library for working with [Civitai](https://civitai.com/) - models for Stable Diffusion 
+This is not an interpretation of the available API, but access to the generation of images thanks to the capabilities of the site.
+
+**Please use with respect, site resources are limited.**
 
 ## Installing
 ```
@@ -11,10 +13,10 @@ pip install git+https://github.com/Lorg0n/civitai-generation-lib/
 ```python
 from civitai import civitai
 
-cookie = "cookie123abcd" # insert your cookie here
+cookie = "" # insert your cookie here
 api = civitai.Civitai(cookie)
 
-lora = api.getAdditionalResources("femboi")[0]
+lora = api.getAdditionalResources("makima")[0]
 lora.setStrength(0.7)
 
 resources = [api.getCheckpoints("OrangeMixs")[0], lora]
