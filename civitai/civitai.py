@@ -49,11 +49,11 @@ class Civitai:
             }
         }
         url = BASE_URL + "api/trpc/generation.createRequest"
-        return self.__session.post(url=url, headers=self.__headers, json=data).json()
+        return self.__session.post(url=url, headers=self.__headers, json=data).json()['result']['data']['json']
 
     def getRequests(self):
         url = BASE_URL + "api/trpc/generation.getRequests?input=%7B%22json%22%3A%7B%22cursor%22%3Anull%2C%22authed%22%3Atrue%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22cursor%22%3A%5B%22undefined%22%5D%7D%7D%7D"
-        return self.__session.get(url=url, headers=self.__headers).json()
+        return self.__session.get(url=url, headers=self.__headers).json()['result']['data']['json']
 
     def getCheckpoints(self, query=""):
         url = BASE_URL + f"api/trpc/generation.getResources?input=%7B%22json%22%3A%7B%22types%22%3A%5B%22Checkpoint%22%5D%2C%22query%22%3A%22{query}%22%2C%22baseModel%22%3Anull%2C%22supported%22%3Atrue%2C%22authed%22%3Atrue%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22baseModel%22%3A%5B%22undefined%22%5D%7D%7D%7D"
