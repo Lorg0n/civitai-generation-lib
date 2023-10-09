@@ -16,12 +16,12 @@ from civitai import civitai
 cookie = "" # insert your cookie here
 api = civitai.Civitai(cookie)
 
-lora = api.getAdditionalResources("makima")[0]
-lora.setStrength(0.7)
+lora = api.get_additional_resources("makima")[0]
+lora.set_strength(0.7)
 
-resources = [api.getCheckpoints("OrangeMixs")[0], lora]
+resources = [api.get_checkpoints("OrangeMixs")[0], lora]
 params = {
-        "prompt": "1girl, yellow-blue colors",
+        "prompt": "1girl, makima",
         "negativePrompt": "EasyNegative,sketch,duplicate,ugly,huge eyesm, nsfw",
         "cfgScale": 5.5,
         "sampler": "DPM++ 2M Karras",
@@ -33,7 +33,7 @@ params = {
         "aspectRatio": "0",
         "baseModel": "SD1"
 }
-api.createRequestJson(resources, params)
+api.create_request(resources, params)
 ```
 
 ## Description
