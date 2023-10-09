@@ -81,7 +81,7 @@ class Civitai:
         self.cookie = cookie
         self.__session = requests.Session()
         self.__headers = self.__get_headers()
-        self.__session.post(url=BASE_URL, headers=self.__headers)
+        # self.__session.post(url=BASE_URL, headers=self.__headers)
 
     def __get_headers(self):
         headers = {
@@ -112,31 +112,52 @@ class Civitai:
             }
         }
         url = BASE_URL + "api/trpc/generation.createRequest"
-        return self.__session.post(url=url, headers=self.__headers, json=data).json()['result']['data']['json']
+        req = self.__session.post(url=url, headers=self.__headers, json=data)
+        if req.status_code == 200:
+            return req.json()['result']['data']['json']
+        else:
+            raise Exception(f"Error receiving a response from the site. Status: {req.status_code}")
 
     def get_requests(self):
-        url = BASE_URL + "api/trpc/generation.getRequests?input=%7B%22json%22%3A%7B%22cursor%22%3Anull%2C%22authed%22%3Atrue%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22cursor%22%3A%5B%22undefined%22%5D%7D%7D%7D"
+        url = BASE_URL + ("api/trpc/generation.getRequests?input=%7B%22json%22%3A%7B%22cursor%22%3Anull%2C%22authed%22"
+                          "%3Atrue%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22cursor%22%3A%5B%22undefined%22%5D%7D%7D"
+                          "%7D")
         req = self.__session.get(url=url, headers=self.__headers)
-        result = []
-        for i in req.json()['result']['data']['json']['items']:
-            result.append(Image(i))
-        return result
+        if req.status_code == 200:
+            result = []
+            for i in req.json()['result']['data']['json']['items']:
+                result.append(Image(i))
+            return result
+        else:
+            raise Exception(f"Error receiving a response from the site. Status: {req.status_code}")
 
     def get_checkpoints(self, query=""):
-        url = BASE_URL + f"api/trpc/generation.getResources?input=%7B%22json%22%3A%7B%22types%22%3A%5B%22Checkpoint%22%5D%2C%22query%22%3A%22{query}%22%2C%22baseModel%22%3Anull%2C%22supported%22%3Atrue%2C%22authed%22%3Atrue%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22baseModel%22%3A%5B%22undefined%22%5D%7D%7D%7D"
-        req = self.__session.get(url=url, headers=self.__headers).json()
-        result = []
-        for i in req['result']['data']['json']:
-            result.append(Resource(i))
-        return result
+        url = BASE_URL + (f"api/trpc/generation.getResources?input=%7B%22json%22%3A%7B%22types%22%3A%5B%22Checkpoint"
+                          f"%22%5D%2C%22query%22%3A%22{query}%22%2C%22baseModel%22%3Anull%2C%22supported%22%3Atrue%2C"
+                          f"%22authed%22%3Atrue%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22baseModel%22%3A%5B"
+                          f"%22undefined%22%5D%7D%7D%7D")
+        req = self.__session.get(url=url, headers=self.__headers)
+        if req.status_code == 200:
+            result = []
+            for i in req.json()['result']['data']['json']:
+                result.append(Resource(i))
+            return result
+        else:
+            raise Exception(f"Error receiving a response from the site. Status: {req.status_code}")
 
     def get_additional_resources(self, query=""):
-        url = BASE_URL + f"api/trpc/generation.getResources?input=%7B%22json%22%3A%7B%22types%22%3A%5B%22LORA%22%2C%22TextualInversion%22%2C%22LoCon%22%5D%2C%22query%22%3A%22{query}%22%2C%22baseModel%22%3Anull%2C%22supported%22%3Atrue%2C%22authed%22%3Atrue%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22baseModel%22%3A%5B%22undefined%22%5D%7D%7D%7D"
-        req = self.__session.get(url=url, headers=self.__headers).json()
-        result = []
-        for i in req['result']['data']['json']:
-            result.append(Resource(i))
-        return result
+        url = BASE_URL + (f"api/trpc/generation.getResources?input=%7B%22json%22%3A%7B%22types%22%3A%5B%22LORA%22%2C"
+                          f"%22TextualInversion%22%2C%22LoCon%22%5D%2C%22query%22%3A%22{query}%22%2C%22baseModel%22"
+                          f"%3Anull%2C%22supported%22%3Atrue%2C%22authed%22%3Atrue%7D%2C%22meta%22%3A%7B%22values%22"
+                          f"%3A%7B%22baseModel%22%3A%5B%22undefined%22%5D%7D%7D%7D")
+        req = self.__session.get(url=url, headers=self.__headers)
+        if req.status_code == 200:
+            result = []
+            for i in req.json()['result']['data']['json']:
+                result.append(Resource(i))
+            return result
+        else:
+            raise Exception(f"Error receiving a response from the site. Status: {req.status_code}")
 
 
 

@@ -34,6 +34,7 @@ params = {
         "baseModel": "SD1"
 }
 api.create_request(resources, params)
+print([e.status for e in api.get_requests()])
 ```
 
 ## Description
